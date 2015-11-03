@@ -11,10 +11,14 @@
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(N_LEDS, PIN, NEO_GRB + NEO_KHZ800);
 
+int motorcycleOrangeRed = 255;
+int motorcycleOrangeGreen = 43;
+int motorcycleOrangeBlue = 0;
+
 void setup() {
   // initialize the serial communication:
   Serial.begin(9600);
-
+  
   strip.begin();
   strip.show();
   strip.setBrightness(64);
@@ -22,7 +26,7 @@ void setup() {
 
 void loop() {
   int ambientLight = Esplora.readLightSensor();
-  if (ambientLight > 700) {
+  if (ambientLight > 1023) {
     strip.setBrightness(0);
   } else {
     int xAxis = Esplora.readAccelerometer(X_AXIS);
@@ -32,7 +36,7 @@ void loop() {
       strip.setPixelColor(i, xAxis, yAxis, zAxis);
     }
     int brightness = Esplora.readMicrophone()/4;
-    strip.setBrightness(brightness);
+    strip.setBrightness(32);
   }
   strip.show();
 
