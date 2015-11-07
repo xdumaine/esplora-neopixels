@@ -6,40 +6,44 @@
 #include <Adafruit_NeoPixel.h>
 #include <Esplora.h>
 
-#define PIN     11
-#define N_LEDS  30
+#include "definitions.h"
+#include "board_controls.h"
+#include "color_effects.h"
 
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(N_LEDS, PIN, NEO_GRB + NEO_KHZ800);
-
-int motorcycleOrangeRed = 255;
-int motorcycleOrangeGreen = 43;
-int motorcycleOrangeBlue = 0;
 
 void setup() {
   // initialize the serial communication:
   Serial.begin(9600);
-  
-  strip.begin();
-  strip.show();
-  strip.setBrightness(64);
+
+  strip1.begin();
+  strip1.show();
+  strip1.setBrightness(64);
+}
+
+void startShow(int i) {
+  int buttons = getButtonsState();
+  if ((buttons & 1) == 1) {
+    colorWipe(strip1, KTM_ORANGE, 50);
+  } else if ((buttons & 2) == 2) {
+    colorWipe(strip1, KTM_BLACK, 50);
+  } else if ((buttons & 4) == 4) {
+    colorWipe(strip1, BLUE, 50);
+  } else if ((buttons & 8) == 8) {
+    rainbowCycle(strip1, 2);
+  }
+  Serial.print((buttons & 1) == 1);
+  Serial.print(", ");
+  Serial.print((buttons & 2) == 2);
+  Serial.print(", ");
+  Serial.print((buttons & 4) == 4);
+  Serial.print(", ");
+  Serial.print((buttons & 8) == 8);
+  Serial.println("-----");
 }
 
 void loop() {
-  int ambientLight = Esplora.readLightSensor();
-  if (ambientLight > 1023) {
-    strip.setBrightness(0);
-  } else {
-    int xAxis = Esplora.readAccelerometer(X_AXIS);
-    int yAxis = Esplora.readAccelerometer(Y_AXIS);
-    int zAxis = Esplora.readAccelerometer(Z_AXIS);
-    for(int i = 0; i < N_LEDS; i++) {
-      strip.setPixelColor(i, xAxis, yAxis, zAxis);
-    }
-    int brightness = Esplora.readMicrophone()/4;
-    strip.setBrightness(32);
-  }
-  strip.show();
-
-  // add a delay to keep the LED from flickering:
-  delay(10);
+  setBrightness(strip1);
+  setBrightness(strip2);
+  startShow(mode);
 }
+
