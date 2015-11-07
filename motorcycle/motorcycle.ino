@@ -45,4 +45,3 @@ void loop() {
   setBrightness(strip2);
   startShow();
 }
-

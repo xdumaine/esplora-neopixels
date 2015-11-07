@@ -14,7 +14,7 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(N_LEDS, PIN, NEO_GRB + NEO_KHZ800);
 void setup() {
   // initialize the serial communication:
   Serial.begin(9600);
-  
+
   strip.begin();
   strip.show();
   strip.setBrightness(64);
@@ -43,7 +43,7 @@ void loop() {
     case 2:
       green = value;
       break;
-    case 3: 
+    case 3:
       brightness = value;
       break;
     default:
