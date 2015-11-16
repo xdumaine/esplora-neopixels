@@ -21,7 +21,11 @@ void setup() {
 }
 
 void startShow() {
-  switch (getButtonsState()) {
+  int buttons = getButtonsState();
+  if (buttons == 0) {
+    buttons = mode;
+  }
+  switch (buttons) {
     case 1: // left
       colorWipe(strip1, KTM_ORANGE, 50);
       break;
@@ -38,6 +42,7 @@ void startShow() {
       colorWipe(strip1, (RGB){0, 255, 0}, 50);
       break;
   }
+  mode = buttons;
 }
 
 void loop() {
