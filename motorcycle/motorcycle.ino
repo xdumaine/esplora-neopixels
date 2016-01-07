@@ -27,16 +27,25 @@ void startShow() {
   }
   switch (buttons) {
     case 1: // left
+      if (mode == buttons) {
+        return;
+      }
       colorWipe(strip1, KTM_ORANGE, 50);
       break;
     case 2: // up
+      if (mode == buttons) {
+        return;
+      }
       colorWipe(strip1, KTM_BLACK, 50);
       break;
     case 4: // right
+      if (mode == buttons) {
+        return;
+      }
       colorWipe(strip1, BLUE, 50);
       break;
     case 8: // down
-      rainbowCycle(strip1, 2);
+      rainbowCycle(strip1, 1);
       break;
     case 3: // left, up
       colorWipe(strip1, (RGB){0, 255, 0}, 50);
